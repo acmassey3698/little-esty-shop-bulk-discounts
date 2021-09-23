@@ -1,4 +1,5 @@
 class Merchant < ApplicationRecord
+  has_many :discounts, dependent: :destroy
   has_many :items, dependent: :destroy
   validates :name, presence: true
 
