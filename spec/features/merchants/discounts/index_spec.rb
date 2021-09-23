@@ -24,12 +24,26 @@ RSpec.describe 'merchants discounts index' do
   end
 
   it 'shows all discounts associated with the merchant' do
-    save_and_open_page
+    within "#discount-#{@disc1.id}" do
+      expect(page).to have_link("#{@disc1.percentage}% off #{@disc1.threshold} items")
+    end
 
-    expect(page).to have_content("#{@disc1.percentage}% off #{@disc1.threshold} items")
-    expect(page).to have_content("#{@disc2.percentage}% off #{@disc2.threshold} items")
-    expect(page).to have_content("#{@disc3.percentage}% off #{@disc3.threshold} items")
+    within "#discount-#{@disc2.id}" do
+      expect(page).to have_link("#{@disc2.percentage}% off #{@disc2.threshold} items")
+    end
 
-    expect(page).to_not have_content("#{@disc4.percentage}% off #{@disc4.threshold} items")
+    within "#discount-#{@disc3.id}" do
+      expect(page).to have_link("#{@disc3.percentage}% off #{@disc3.threshold} items")
+    end
+
+    expect(page).to_not have_link("#{@disc4.percentage}% off #{@disc4.threshold} items")
+  end
+
+  it 'links to the discount show page when the link is clicked' do
+    within "#discount-#{@disc1.id}" do
+      click_link("#{@disc1.percentage}% off #{@disc1.threshold} items")
+    end
+
+    expect(current_path).to eq(merchant_discount_path(@merch1, @disc1))
   end
 end
