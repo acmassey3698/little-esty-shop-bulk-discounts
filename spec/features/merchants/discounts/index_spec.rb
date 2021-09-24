@@ -2,14 +2,13 @@ require 'rails_helper'
 
 RSpec.describe 'merchants discounts index' do
   before :each do
-      @merch1 = create(:merchant)
-      @merch2 = create(:merchant)
-      @disc1 = @merch1.discounts.create!(percentage: 20, threshold: 5)
-      @disc2 = @merch1.discounts.create!(percentage: 50, threshold: 25)
-      @disc3 = @merch1.discounts.create!(percentage: 10, threshold: 2)
-      @disc4 = @merch2.discounts.create!(percentage: 15, threshold: 20)
-
-      visit merchant_discounts_path(@merch1)
+    @merch1 = create(:merchant)
+    @merch2 = create(:merchant)
+    @disc1 = @merch1.discounts.create!(percentage: 20, threshold: 5)
+    @disc2 = @merch1.discounts.create!(percentage: 50, threshold: 25)
+    @disc3 = @merch1.discounts.create!(percentage: 10, threshold: 2)
+    @disc4 = @merch2.discounts.create!(percentage: 15, threshold: 20)
+    visit merchant_discounts_path(@merch1)
   end
 
   it 'shows all discounts associated with the merchant' do
