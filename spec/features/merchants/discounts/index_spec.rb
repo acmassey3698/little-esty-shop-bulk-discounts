@@ -1,16 +1,5 @@
 require 'rails_helper'
 
-# Merchant Bulk Discounts Index
-#
-# As a merchant
-# When I visit my merchant dashboard
-# Then I see a link to view all my discounts
-# When I click this link
-# Then I am taken to my bulk discounts index page
-# Where I see all of my bulk discounts including their
-# percentage discount and quantity thresholds
-# And each bulk discount listed includes a link to its show page
-
 RSpec.describe 'merchants discounts index' do
   before :each do
       @merch1 = create(:merchant)
@@ -45,5 +34,14 @@ RSpec.describe 'merchants discounts index' do
     end
 
     expect(current_path).to eq(merchant_discount_path(@merch1, @disc1))
+  end
+
+  it 'has a link to create a new discount' do
+    expect(page).to have_button("Create New Bulk Discount")
+  end
+
+  it 'links to the discount creation form' do
+    click_button("Create New Bulk Discount")
+    expect(current_path).to eq(new_merchant_discount_path(@merch1))
   end
 end
