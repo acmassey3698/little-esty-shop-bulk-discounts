@@ -66,6 +66,29 @@ RSpec.describe 'merchants discounts index' do
     end
 
     expect(current_path).to eq(merchant_discounts_path(@merch1))
+    expect(page).to have_content("Discount Successfully Deleted")
     expect(page).to_not have_content("#{@disc1.percentage}% off #{@disc1.threshold} items")
+  end
+
+  it 'has a button to edit each discount' do
+    within "#discount-#{@disc1.id}" do
+      expect(page).to have_button("Edit")
+    end
+
+    within "#discount-#{@disc2.id}" do
+      expect(page).to have_button("Edit")
+    end
+
+    within "#discount-#{@disc3.id}" do
+      expect(page).to have_button("Edit")
+    end
+  end
+
+  it 'links to the form to edit the discount' do
+    within "#discount-#{@disc1.id}" do
+      click_button("Edit")
+    end
+
+    expect(current_path).to eq(edit_merchant_discount_path(@merch1, @disc1))
   end
 end
