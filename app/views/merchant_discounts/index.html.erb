@@ -1,5 +1,12 @@
 <h1><%= @merchant.name %> Bulk Discounts </h1>
 
+Upcoming Holidays:<br>
+<ul>
+  <% @holidays.each do |holiday| %>
+    <li><%="#{holiday.name} is coming up on #{holiday.date}"%> </li>
+  <% end %>
+</ul>
+
 <%= button_to "Create New Bulk Discount", new_merchant_discount_path, method: :get %><br>
 
 <ul>
