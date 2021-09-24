@@ -29,10 +29,30 @@ class MerchantDiscountsController < ApplicationController
     merchant = Merchant.find(params[:merchant_id])
     discount = Discount.find(params[:id])
     discount.destroy
+
     redirect_to merchant_discounts_path(merchant)
+    flash[:notice] = "Discount Successfully Deleted"
   end
 
+  def edit
+    @merchant = Merchant.find(params[:merchant_id])
+    @discount = Discount.find(params[:id])
+  end
 
+  def update
+    merchant = Merchant.find(params[:merchant_id])
+    discount = Discount.find(params[:id])
+
+    discount.update(discount_params)
+
+    if discount.save
+      redirect_to merchant_discounts_path(merchant)
+      flash[:notice] = "Discount Updated Successfully"
+    else
+      redirect_to edit_merchant_discount_path(merchant, discount)
+      flash[:notice] = "Edit Unsuccessful. Try Again."
+    end
+  end
 
   private
   def discount_params
