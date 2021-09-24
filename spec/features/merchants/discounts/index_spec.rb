@@ -44,4 +44,28 @@ RSpec.describe 'merchants discounts index' do
     click_button("Create New Bulk Discount")
     expect(current_path).to eq(new_merchant_discount_path(@merch1))
   end
+
+
+  it 'has a link beside every discount to delete that discount' do
+    within "#discount-#{@disc1.id}" do
+      expect(page).to have_button("Delete")
+    end
+
+    within "#discount-#{@disc2.id}" do
+      expect(page).to have_button("Delete")
+    end
+
+    within "#discount-#{@disc3.id}" do
+      expect(page).to have_button("Delete")
+    end
+  end
+
+  it 'destroys the record when the delete link is clicked' do
+    within "#discount-#{@disc1.id}" do
+      click_button("Delete")
+    end
+
+    expect(current_path).to eq(merchant_discounts_path(@merch1))
+    expect(page).to_not have_content("#{@disc1.percentage}% off #{@disc1.threshold} items")
+  end
 end
