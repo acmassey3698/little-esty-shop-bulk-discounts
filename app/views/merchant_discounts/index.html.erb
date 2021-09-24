@@ -1,5 +1,7 @@
 <h1><%= @merchant.name %> Bulk Discounts </h1>
 
+<%= button_to "Create New Bulk Discount", new_merchant_discount_path, method: :get %>
+
 <ul>
   <% @merchant.discounts.each do |discount| %>
     <div id="discount-<%=discount.id%>">
