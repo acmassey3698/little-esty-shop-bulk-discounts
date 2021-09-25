@@ -13,6 +13,8 @@
 
 <p>Created on: <%= @invoice.created_at_formatted %></p>
 <p>Total Revenue: <%= number_to_currency(@invoice.total_revenue.fdiv(100)) %></p>
+<p>Revenue After Discount:</p>
+<!-- Need to write the actual method for this but just setting up views -->
 <h3>Customer</h3>
 <p><%= @invoice.customer.first_name %> <%= @invoice.customer.last_name %>
 
