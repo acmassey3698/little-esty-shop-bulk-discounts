@@ -112,4 +112,10 @@ RSpec.describe 'Merchant Invoices Show page' do
       expect(find(:css, 'select#invoice_item_status').value ).to eq('pending')
     end
   end
+
+  it 'shows the total discounted revenue for the invoice discounted' do
+      expect(page).to have_content("Revenue After Discounts:")
+      ##TESTING ONCE THE DISCOUNTED REVENUE METHOD IS BUILT. JUST BUILDING FRAMEWORK
+  end
+
 end

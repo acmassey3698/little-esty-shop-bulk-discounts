@@ -74,4 +74,9 @@ describe 'admin invoices show page' do
       expect(find(:css, 'select#invoice_status').value ).to eq('cancelled')
     end
   end
+
+  it 'shows the total discounted revenue for the invoice' do
+      expect(page).to have_content("Revenue After Discounts:")
+      ##TESTING ONCE THE DISCOUNTED REVENUE METHOD IS BUILT. JUST BUILDING FRAMEWORK
+  end
 end
