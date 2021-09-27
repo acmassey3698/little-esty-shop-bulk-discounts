@@ -4,6 +4,7 @@ RSpec.describe 'Merchant Invoices Show page' do
   before(:each) do
     @merch1 = create(:merchant)
     @merch2 = create(:merchant)
+    @merch1.discounts.create!(threshold: 15, percentage: 10)
     @cust1 = create(:customer)
     @cust2 = create(:customer)
     @cust3 = create(:customer)
@@ -78,7 +79,7 @@ RSpec.describe 'Merchant Invoices Show page' do
   end
 
   it 'shows total revenue' do
-    expect(page).to have_content('$59,000')
+    expect(page).to have_content('$590.00')
   end
 
   it 'has a select box for invoice status' do
@@ -115,7 +116,6 @@ RSpec.describe 'Merchant Invoices Show page' do
 
   it 'shows the total discounted revenue for the invoice discounted' do
       expect(page).to have_content("Revenue After Discounts:")
-      ##TESTING ONCE THE DISCOUNTED REVENUE METHOD IS BUILT. JUST BUILDING FRAMEWORK
+      expect(page).to have_content("$575.00")
   end
-
 end

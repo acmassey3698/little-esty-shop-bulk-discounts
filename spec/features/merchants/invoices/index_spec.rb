@@ -26,16 +26,16 @@ RSpec.describe 'Merchant invoices index page' do
     @invoice6 = create(:invoice, customer: @cust6)
     @invoice7 = create(:invoice, customer: @cust7)
     @invoice8 = create(:invoice, customer: @cust7)
-    InvoiceItem.create(item: @item1, invoice: @invoice1, status: 1)
-    InvoiceItem.create(item: @item2, invoice: @invoice2, status: 1)
-    InvoiceItem.create(item: @item3, invoice: @invoice2, status: 1)
-    InvoiceItem.create(item: @item1, invoice: @invoice2)
-    InvoiceItem.create(item: @item1, invoice: @invoice3)
-    InvoiceItem.create(item: @item1, invoice: @invoice4)
-    InvoiceItem.create(item: @item1, invoice: @invoice5)
-    InvoiceItem.create(item: @item4, invoice: @invoice6)
-    InvoiceItem.create(item: @item5, invoice: @invoice7)
-    InvoiceItem.create(item: @item6, invoice: @invoice8)
+    InvoiceItem.create(item: @item1, invoice: @invoice1, status: 1, quantity: 1, unit_price: 100)
+    InvoiceItem.create(item: @item2, invoice: @invoice2, status: 1, quantity: 1, unit_price: 100)
+    InvoiceItem.create(item: @item3, invoice: @invoice2, status: 1, quantity: 1, unit_price: 100)
+    InvoiceItem.create(item: @item1, invoice: @invoice2, quantity: 1, unit_price: 100)
+    InvoiceItem.create(item: @item1, invoice: @invoice3, quantity: 1, unit_price: 100)
+    InvoiceItem.create(item: @item1, invoice: @invoice4, quantity: 1, unit_price: 100)
+    InvoiceItem.create(item: @item1, invoice: @invoice5, quantity: 1, unit_price: 100)
+    InvoiceItem.create(item: @item4, invoice: @invoice6, quantity: 1, unit_price: 100)
+    InvoiceItem.create(item: @item5, invoice: @invoice7, quantity: 1, unit_price: 100)
+    InvoiceItem.create(item: @item6, invoice: @invoice8, quantity: 1, unit_price: 100)
     create(:transaction, invoice: @invoice1, result: 'success')
     create(:transaction, invoice: @invoice1, result: 'failed')
     create(:transaction, invoice: @invoice1, result: 'failed')
@@ -57,7 +57,7 @@ RSpec.describe 'Merchant invoices index page' do
   end
 
   it 'shows all the invoices that include one of the merchants items' do
-    
+
 
     expect(page).to have_content(@invoice1.id)
     expect(page).to have_content(@invoice2.id)
