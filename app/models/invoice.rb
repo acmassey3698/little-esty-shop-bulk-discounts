@@ -37,4 +37,15 @@ class Invoice < ApplicationRecord
   def discounted_revenue
     invoice_items.sum {|ii| ii.discounted_ii_revenue}
   end
+
+  def invoice_discounts
+    discounts = []
+    invoice_items.each do |ii|
+      # require "pry"; binding.pry
+      if !ii.discounts_applied.nil?
+        discounts << ii.discounts_applied
+      end
+    end
+    discounts
+  end
 end

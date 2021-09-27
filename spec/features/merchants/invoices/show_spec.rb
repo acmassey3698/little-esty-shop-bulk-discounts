@@ -4,7 +4,7 @@ RSpec.describe 'Merchant Invoices Show page' do
   before(:each) do
     @merch1 = create(:merchant)
     @merch2 = create(:merchant)
-    @merch1.discounts.create!(threshold: 15, percentage: 10)
+    @disc1 = @merch1.discounts.create!(threshold: 15, percentage: 10)
     @cust1 = create(:customer)
     @cust2 = create(:customer)
     @cust3 = create(:customer)
@@ -117,5 +117,11 @@ RSpec.describe 'Merchant Invoices Show page' do
   it 'shows the total discounted revenue for the invoice discounted' do
       expect(page).to have_content("Revenue After Discounts:")
       expect(page).to have_content("$575.00")
+  end
+
+  it 'shows all the discounts applied to the invoice' do
+    expect(page).to have_link("10% off 15")
+    click_link("10% off 15")
+    expect(current_path).to eq(merchant_discount_path(@merch1, @disc1))
   end
 end
