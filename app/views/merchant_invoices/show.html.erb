@@ -4,6 +4,12 @@
 <p>Date Created: <%= @invoice.created_at_formatted %></p>
 <p>Total Revenue: <%= number_to_currency(@invoice.total_revenue.fdiv(100)) %></p>
 <p>Revenue After Discounts: <%= number_to_currency(@invoice.discounted_revenue.fdiv(100)) %></p>
+<p>Discounts Applied:</p>
+<ul>
+  <% @invoice.invoice_discounts.each do |discount| %>
+    <li><%= link_to "#{discount.percentage}% off #{discount.threshold}", merchant_discount_path(@merchant, discount) %></li>
+  <% end %>
+</ul>
 <p>Customer Name: <%= @invoice.customer_by_id.first_name %> <%= @invoice.customer_by_id.last_name %></p>
 
 <table class="table table-hover">

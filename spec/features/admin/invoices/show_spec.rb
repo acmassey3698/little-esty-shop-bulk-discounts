@@ -67,8 +67,6 @@ describe 'admin invoices show page' do
   end
 
   it 'displays all items on invoice' do
-    save_and_open_page
-
     within("#table-#{@ii1.id}") do
       expect(page).to have_content(@item1.name)
       expect(page).to have_content(@ii1.quantity)
