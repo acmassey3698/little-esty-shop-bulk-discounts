@@ -11,6 +11,7 @@ RSpec.describe Invoice, type: :model do
   describe 'instance methods' do
     before(:each) do
       @merch1 = create(:merchant)
+      @merch1.discounts.create!(threshold: 15, percentage: 10)
       @cust1 = create(:customer)
       @cust2 = create(:customer)
       @cust3 = create(:customer)
@@ -29,16 +30,16 @@ RSpec.describe Invoice, type: :model do
       @invoice6 = create(:invoice, customer: @cust6)
       @invoice7 = create(:invoice, customer: @cust7)
       @invoice8 = create(:invoice, customer: @cust7)
-      InvoiceItem.create(item: @item1, invoice: @invoice1, status: 1, quantity: 3, unit_price: 1000)
-      InvoiceItem.create(item: @item2, invoice: @invoice2, status: 1)
-      InvoiceItem.create(item: @item3, invoice: @invoice2, status: 1)
-      InvoiceItem.create(item: @item1, invoice: @invoice2)
-      InvoiceItem.create(item: @item1, invoice: @invoice3)
-      InvoiceItem.create(item: @item1, invoice: @invoice4)
-      InvoiceItem.create(item: @item1, invoice: @invoice5)
-      InvoiceItem.create(item: @item1, invoice: @invoice6)
-      InvoiceItem.create(item: @item2, invoice: @invoice7)
-      InvoiceItem.create(item: @item2, invoice: @invoice8)
+      InvoiceItem.create(item: @item1, invoice: @invoice1, status: 1, quantity: 15, unit_price: 1000)
+      InvoiceItem.create(item: @item2, invoice: @invoice1, status: 1, quantity: 5, unit_price: 100)
+      InvoiceItem.create(item: @item3, invoice: @invoice1, status: 1, quantity: 5, unit_price: 100)
+      InvoiceItem.create(item: @item1, invoice: @invoice1, quantity: 5, unit_price: 100)
+      InvoiceItem.create(item: @item1, invoice: @invoice3, quantity: 5, unit_price: 100)
+      InvoiceItem.create(item: @item1, invoice: @invoice4, quantity: 5, unit_price: 100)
+      InvoiceItem.create(item: @item1, invoice: @invoice5, quantity: 5, unit_price: 100)
+      InvoiceItem.create(item: @item1, invoice: @invoice6, quantity: 5, unit_price: 100)
+      InvoiceItem.create(item: @item2, invoice: @invoice7, quantity: 5, unit_price: 100)
+      InvoiceItem.create(item: @item2, invoice: @invoice8, quantity: 5, unit_price: 100)
       create(:transaction, invoice: @invoice1, result: 'success')
       create(:transaction, invoice: @invoice1, result: 'failed')
       create(:transaction, invoice: @invoice1, result: 'failed')
@@ -78,7 +79,11 @@ RSpec.describe Invoice, type: :model do
     end
 
     it '#total_revenue' do
-      expect(@invoice1.total_revenue).to eq(3000)
+      expect(@invoice1.total_revenue).to eq(16500)
+    end
+
+    it '#discounted_revenue' do
+      expect(@invoice1.discounted_revenue).to eq(15000)
     end
   end
 end
