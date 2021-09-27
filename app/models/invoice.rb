@@ -33,4 +33,8 @@ class Invoice < ApplicationRecord
   def total_revenue
     invoice_items.where(invoice_id: id).sum('quantity * unit_price')
   end
+
+  def discounted_revenue
+    invoice_items.sum {|ii| ii.discounted_ii_revenue}
+  end
 end
