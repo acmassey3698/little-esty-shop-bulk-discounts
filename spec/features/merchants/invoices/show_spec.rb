@@ -14,7 +14,7 @@ RSpec.describe 'Merchant Invoices Show page' do
     @cust7 = create(:customer)
     @item1 = create(:item, merchant: @merch1)
     @item2 = create(:item, merchant: @merch1)
-    @item3 = create(:item, merchant: @merch1)
+    @item3 = create(:item, merchant: @merch2)
     @item4 = create(:item, merchant: @merch2)
     @item5 = create(:item, merchant: @merch2)
     @item6 = create(:item, merchant: @merch2)
@@ -28,7 +28,7 @@ RSpec.describe 'Merchant Invoices Show page' do
     @invoice8 = create(:invoice, customer: @cust7)
     @ii1 = InvoiceItem.create(item: @item1, invoice: @invoice1, status: 1, quantity: 15, unit_price: 1000)
     @ii2 = InvoiceItem.create(item: @item2, invoice: @invoice1, status: 1, quantity: 11, unit_price: 4000)
-    InvoiceItem.create(item: @item3, invoice: @invoice2, status: 1)
+    InvoiceItem.create(item: @item3, invoice: @invoice1, status: 1, quantity: 15, unit_price: 1000)
     InvoiceItem.create(item: @item1, invoice: @invoice2)
     InvoiceItem.create(item: @item1, invoice: @invoice3)
     InvoiceItem.create(item: @item1, invoice: @invoice4)
@@ -65,20 +65,20 @@ RSpec.describe 'Merchant Invoices Show page' do
   it 'Shows all items on the invoice' do
     expect(page).to have_content(@item1.name)
     expect(page).to have_content(@item2.name)
+    expect(page).to have_content(@item3.name)
     expect(page).to have_content(@ii1.quantity)
     expect(page).to have_content(@ii2.quantity)
-    expect(page).to have_content('$1,000.00')
-    expect(page).to have_content('$4,000.00')
+    expect(page).to have_content('$10.00')
+    expect(page).to have_content('$40.00')
     expect(page).to have_content(@invoice1.item_status(@item1.id))
     expect(page).to have_content(@invoice1.item_status(@item2.id))
 
-    expect(page).to_not have_content(@item3.name)
     expect(page).to_not have_content(@item4.name)
     expect(page).to_not have_content(@item5.name)
     expect(page).to_not have_content(@item6.name)
   end
 
-  it 'shows total revenue' do
+  it 'shows revenue for the merchants items' do
     expect(page).to have_content('$590.00')
   end
 

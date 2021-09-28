@@ -10,6 +10,7 @@ RSpec.describe Invoice, type: :model do
 
   before(:each) do
     @merch1 = create(:merchant)
+    @merch2 = create(:merchant)
     @merch1.discounts.create!(threshold: 15, percentage: 10)
     @cust1 = create(:customer)
     @cust2 = create(:customer)
@@ -20,7 +21,7 @@ RSpec.describe Invoice, type: :model do
     @cust7 = create(:customer)
     @item1 = create(:item, merchant: @merch1)
     @item2 = create(:item, merchant: @merch1)
-    @item3 = create(:item, merchant: @merch1)
+    @item3 = create(:item, merchant: @merch2)
     @invoice1 = create(:invoice, customer: @cust1)
     @invoice2 = create(:invoice, customer: @cust2)
     @invoice3 = create(:invoice, customer: @cust3)
@@ -29,10 +30,10 @@ RSpec.describe Invoice, type: :model do
     @invoice6 = create(:invoice, customer: @cust6)
     @invoice7 = create(:invoice, customer: @cust7)
     @invoice8 = create(:invoice, customer: @cust7)
-    InvoiceItem.create(item: @item1, invoice: @invoice1, status: 1, quantity: 15, unit_price: 1000)
-    InvoiceItem.create(item: @item2, invoice: @invoice1, status: 1, quantity: 5, unit_price: 100)
-    InvoiceItem.create(item: @item3, invoice: @invoice1, status: 1, quantity: 5, unit_price: 100)
-    InvoiceItem.create(item: @item1, invoice: @invoice1, quantity: 5, unit_price: 100)
+    @ii1 = InvoiceItem.create(item: @item1, invoice: @invoice1, status: 1, quantity: 15, unit_price: 1000)
+    @ii2 = InvoiceItem.create(item: @item2, invoice: @invoice1, status: 1, quantity: 5, unit_price: 100)
+    @ii3 = InvoiceItem.create(item: @item3, invoice: @invoice1, status: 1, quantity: 5, unit_price: 100)
+    # InvoiceItem.create(item: @item1, invoice: @invoice1, quantity: 5, unit_price: 100)
     InvoiceItem.create(item: @item1, invoice: @invoice3, quantity: 5, unit_price: 100)
     InvoiceItem.create(item: @item1, invoice: @invoice4, quantity: 5, unit_price: 100)
     InvoiceItem.create(item: @item1, invoice: @invoice5, quantity: 5, unit_price: 100)
@@ -79,11 +80,24 @@ RSpec.describe Invoice, type: :model do
     end
 
     it '#total_revenue' do
-      expect(@invoice1.total_revenue).to eq(16500)
+      expect(@invoice1.total_revenue).to eq(16000)
+    end
+
+    it '#merchants_revenue' do
+      expect(@invoice1.merchants_revenue(@merch1)).to eq(15500)
     end
 
     it '#discounted_revenue' do
-      expect(@invoice1.discounted_revenue).to eq(15000)
+      expect(@invoice1.discounted_revenue).to eq(14500)
+    end
+
+    it '#merchants_invoice_items' do
+      expect(@invoice1.merchants_invoice_items(@merch1)).to eq([@ii1, @ii2])
+      expect(@invoice1.merchants_invoice_items(@merch2)).to eq([@ii3])
+    end
+
+    it '#merchants_discounted_revenue' do
+      expect(@invoice1.merchants_discounted_revenue(@merch1)).to eq(14000)
     end
 
     ## creating new merchants, invoices, etc. in each edge case test to ensure
