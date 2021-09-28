@@ -26,7 +26,7 @@
       <tr>
         <td><%= invoice_item.item.name %></td>
         <td><%= invoice_item.quantity %></td>
-        <td><%= number_to_currency(@invoice.item_unit_price(invoice_item.item.id)) %></td>
+        <td><%= number_to_currency(@invoice.item_unit_price(invoice_item.item.id).fdiv(100)) %></td>
         <td><%= form_with model: invoice_item, local: true do |f| %>
               <%= f.hidden_field :merchant_id, value: invoice_item.item.merchant.id %>
               <%= f.hidden_field :invoice_id, value: @invoice.id %>

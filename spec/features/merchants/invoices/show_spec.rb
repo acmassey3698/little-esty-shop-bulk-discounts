@@ -68,8 +68,8 @@ RSpec.describe 'Merchant Invoices Show page' do
     expect(page).to have_content(@item3.name)
     expect(page).to have_content(@ii1.quantity)
     expect(page).to have_content(@ii2.quantity)
-    expect(page).to have_content('$1,000.00')
-    expect(page).to have_content('$4,000.00')
+    expect(page).to have_content('$10.00')
+    expect(page).to have_content('$40.00')
     expect(page).to have_content(@invoice1.item_status(@item1.id))
     expect(page).to have_content(@invoice1.item_status(@item2.id))
 
