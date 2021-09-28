@@ -41,11 +41,10 @@ class Invoice < ApplicationRecord
   def invoice_discounts
     discounts = []
     invoice_items.each do |ii|
-      # require "pry"; binding.pry
       if !ii.discounts_applied.nil?
         discounts << ii.discounts_applied
       end
     end
-    discounts
+    discounts.uniq
   end
 end
