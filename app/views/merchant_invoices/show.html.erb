@@ -2,8 +2,8 @@
 
 <p>Status: <%= @invoice.status %></p>
 <p>Date Created: <%= @invoice.created_at_formatted %></p>
-<p>Total Revenue: <%= number_to_currency(@invoice.total_revenue.fdiv(100)) %></p>
-<p>Revenue After Discounts: <%= number_to_currency(@invoice.discounted_revenue.fdiv(100)) %></p>
+<p>Total Revenue: <%= number_to_currency(@invoice.merchants_revenue(@merchant).fdiv(100)) %></p>
+<p>Revenue After Discounts: <%= number_to_currency(@invoice.merchants_discounted_revenue(@merchant).fdiv(100)) %></p>
 <p>Discounts Applied:</p>
 <ul>
   <% @invoice.invoice_discounts.each do |discount| %>
