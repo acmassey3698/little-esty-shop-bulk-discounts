@@ -33,5 +33,4 @@ RSpec.describe 'merchant discounts new page' do
     expect(page).to have_content("Discount not created. Invalid Input")
     expect(current_path).to eq(new_merchant_discount_path(@merch1))
   end
-
 end
